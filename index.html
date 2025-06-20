@@ -63,13 +63,7 @@
     #otherInput {
       display: none;
     }
-    #responseMessage {
-      margin-top: 20px;
-      text-align: center;
-      color: green;
-    }
 
-    /* ✅ Popup Modal (ยืนยันเงื่อนไข) */
     .modal {
       display: none;
       position: fixed;
@@ -85,15 +79,13 @@
       border-radius: 12px;
       width: 90%;
       max-width: 600px;
-      text-align: left;
-      position: relative;
-    }
-    .modal-content h2 {
       text-align: center;
+      position: relative;
     }
     .modal-content ul {
       list-style: none;
       padding-left: 0;
+      text-align: left;
     }
     .modal-content ul li::before {
       content: '✅ ';
@@ -112,54 +104,62 @@
 
 <h1>แบบฟอร์มทดลองใช้งานระบบคุกกี้</h1>
 
- <form id="cookieForm">
-    <label>ชื่อ-นามสกุล (ภาษาไทยหรือภาษาอังกฤษ)*</label>
-    <div class="description">กรุณากรอกชื่อ-นามสกุลผู้ยื่นคำร้องให้ครบถ้วน เพื่อให้ทีมงานสามารถติดต่อกลับได้อย่างถูกต้อง</div>
-    <input type="text" name="fullname" required>
+<form id="cookieForm">
+  <label>ชื่อ-นามสกุล*</label>
+  <div class="description">กรุณากรอกชื่อ-นามสกุลผู้ยื่นคำร้องให้ครบถ้วน เพื่อให้ทีมงานสามารถติดต่อกลับได้อย่างถูกต้อง</div>
+  <input type="text" name="fullname" required>
 
-    <label>ชื่อบริษัท/องค์กร*</label>
-    <div class="description">ระบุชื่อบริษัทหรือหน่วยงานของท่านที่ยื่นขอใช้สิทธิทดลองใช้งานระบบคุกกี้</div>
-    <input type="text" name="company" required>
+  <label>ชื่อบริษัท/องค์กร*</label>
+  <div class="description">ระบุชื่อบริษัทหรือหน่วยงานของท่านที่ยื่นขอใช้สิทธิทดลองใช้งานระบบคุกกี้</div>
+  <input type="text" name="company" required>
 
-    <label>E-mail (ต้องเป็น E-mail ของหน่วยงาน / องค์กร เท่านั้น)*</label>
-    <div class="description">โปรดใช้อีเมลที่เป็นโดเมนขององค์กร เพื่อความถูกต้องในการยืนยันสิทธิ (ตัวอย่าง: yourname@company.com)</div>
-    <input type="email" name="email" required placeholder="yourname@company.com">
+  <label>E-mail*</label>
+  <div class="description">โปรดใช้อีเมลที่เป็นโดเมนขององค์กร (เช่น yourname@company.com)</div>
+  <input type="email" name="email" required placeholder="yourname@company.com">
 
-    <label>เบอร์โทรศัพท์*</label>
-    <div class="description">กรุณาระบุเบอร์โทรศัพท์ที่สามารถติดต่อได้ หากทีมงานต้องการสอบถามข้อมูลเพิ่มเติม</div>
-    <input type="tel" name="phone" required>
+  <label>เบอร์โทรศัพท์*</label>
+  <div class="description">กรุณาระบุเบอร์โทรศัพท์ที่สามารถติดต่อได้</div>
+  <input type="tel" name="phone" required>
 
-    <label>เว็บไซต์ที่ต้องการทดลองใช้งาน*</label>
-    <div class="description">ระบุ URL เว็บไซต์ที่ต้องการให้ระบบคุกกี้ทำงานบนเว็บไซต์นั้น</div>
-    <input type="url" name="website" required placeholder="https://yourwebsite.com">
+  <label>เว็บไซต์ที่ต้องการทดลองใช้งาน*</label>
+  <div class="description">ระบุ URL เว็บไซต์ที่ต้องการให้ระบบคุกกี้ทำงาน</div>
+  <input type="url" name="website" required placeholder="https://yourwebsite.com">
 
-    <label>ช่องทางที่ท่านทราบข่าวสารของเรา*</label>
-    <div class="description">โปรดเลือกช่องทางที่ท่านพบข้อมูล (เลือกได้มากกว่า 1 ข้อ)</div>
-    <div>
-      <label><input type="checkbox" name="source" value="Facebook"> Facebook</label><br>
-      <label><input type="checkbox" name="source" value="E-book"> E-book</label><br>
-      <label><input type="checkbox" name="source" value="งานสัมมนา"> งานสัมมนา</label><br>
-      <label><input type="checkbox" name="source" value="Website"> Website</label><br>
-      <label><input type="checkbox" name="source" value="Other" id="otherCheckbox"> อื่น ๆ</label>
-      <input type="text" id="otherInput" placeholder="โปรดระบุ..." />
-    </div>
+  <label>ช่องทางที่ท่านทราบข่าวสารของเรา*</label>
+  <div class="description">เลือกได้มากกว่า 1 ข้อ</div>
+  <div>
+    <label><input type="checkbox" name="source" value="Facebook"> Facebook</label><br>
+    <label><input type="checkbox" name="source" value="E-book"> E-book</label><br>
+    <label><input type="checkbox" name="source" value="งานสัมมนา"> งานสัมมนา</label><br>
+    <label><input type="checkbox" name="source" value="Website"> Website</label><br>
+    <label><input type="checkbox" name="source" value="Other" id="otherCheckbox"> อื่น ๆ</label>
+    <input type="text" id="otherInput" placeholder="โปรดระบุ..." />
+  </div>
 
-    <button type="submit">ส่งข้อมูล</button>
-    <p id="responseMessage"></p>
-  </form>
+  <button type="submit">ส่งข้อมูล</button>
+</form>
 
-<!-- ✅ ป็อปอัปเงื่อนไขการใช้งาน -->
+<!-- ✅ Modal เงื่อนไข -->
 <div id="termsModal" class="modal">
   <div class="modal-content">
     <h2>เงื่อนไขการใช้งาน</h2>
     <ul>
-      <li>ขอสงวนสิทธิ์ในการลงทะเบียนเฉพาะผู้ที่ใช้อีเมลหน่วยงาน / องค์กร</li>
-      <li>ระยะเวลาทดลองใช้งาน 3 เดือน หากต้องการใช้งานต่อ กรุณาติดต่อเพื่อขอใบเสนอราคา</li>
-      <li>หากไม่มีการใช้งานในระบบภายใน 30 วัน ทีมงานขออนุญาตติดต่อเพื่อตรวจสอบปัญหา</li>
-      <li>เมื่อสิ้นสุดระยะเวลาทดลองใช้งาน 3 เดือน หากท่านไม่ประสงค์ใช้งานต่อ ทางทีมงานขอสงวนสิทธิ์ในการลบข้อมูลของท่านออกจากระบบ</li>
+      <li>ขอสงวนสิทธิ์เฉพาะผู้ใช้อีเมลหน่วยงาน / องค์กร</li>
+      <li>ระยะเวลาทดลองใช้งาน 3 เดือน</li>
+      <li>หากไม่ใช้งานภายใน 30 วัน ทีมงานอาจติดต่อสอบถาม</li>
+      <li>เมื่อครบ 3 เดือน หากไม่ใช้ต่อ ทีมงานจะลบข้อมูล</li>
     </ul>
     <button onclick="submitConfirmed()">รับทราบและส่งข้อมูล</button>
     <button class="cancel" onclick="closeTermsModal()">ยกเลิก</button>
+  </div>
+</div>
+
+<!-- ✅ Modal สำเร็จ -->
+<div id="successModal" class="modal">
+  <div class="modal-content">
+    <span onclick="closeSuccessModal()" style="position:absolute; top:10px; right:20px; font-size:24px; cursor:pointer;">&times;</span>
+    <h2>✅ ลงทะเบียนสำเร็จ</h2>
+    <p>ขอบคุณสำหรับการลงทะเบียน ทีมงานจะติดต่อกลับโดยเร็ว</p>
   </div>
 </div>
 
@@ -178,12 +178,10 @@
 
     const sourceCheckboxes = document.querySelectorAll('input[name="source"]:checked');
     let sources = Array.from(sourceCheckboxes).map(cb => cb.value);
-
     if (sources.includes("Other") && otherInput.value.trim()) {
       sources = sources.map(s => s === "Other" ? "Other: " + otherInput.value.trim() : s);
     }
 
-    // เก็บข้อมูลไว้ชั่วคราวก่อนยืนยัน
     pendingFormData = {
       fullname: this.fullname.value,
       company: this.company.value,
@@ -193,7 +191,6 @@
       source: sources.join(", ")
     };
 
-    // เปิดกล่องเงื่อนไข
     document.getElementById("termsModal").style.display = "block";
   });
 
@@ -213,13 +210,22 @@
     .then(msg => {
       form.reset();
       otherInput.style.display = "none";
-      document.getElementById("responseMessage").innerText = "✅ ลงทะเบียนสำเร็จเรียบร้อยแล้ว";
+      showSuccessModal();
     })
     .catch(() => {
-      document.getElementById("responseMessage").innerText = "เกิดข้อผิดพลาดในการส่งข้อมูล";
+      alert("เกิดข้อผิดพลาดในการส่งข้อมูล");
     });
 
     pendingFormData = null;
+  }
+
+  function showSuccessModal() {
+    document.getElementById("successModal").style.display = "block";
+    setTimeout(closeSuccessModal, 3000);
+  }
+
+  function closeSuccessModal() {
+    document.getElementById("successModal").style.display = "none";
   }
 </script>
 
