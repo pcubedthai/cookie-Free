@@ -63,6 +63,7 @@
     #otherInput {
       display: none;
     }
+
     .modal {
       display: none;
       position: fixed;
@@ -135,6 +136,14 @@
     <input type="text" id="otherInput" placeholder="โปรดระบุ..." />
   </div>
 
+  <!-- ✅ ข้อตกลงเก็บข้อมูล -->
+  <div style="margin-top: 20px;">
+    <label>
+      <input type="checkbox" id="consentCheckbox" required>
+      ข้าพเจ้ายินยอมให้บริษัทเก็บรวบรวมและใช้ข้อมูลเพื่อการติดต่อกลับและทดลองใช้งานฟรี
+    </label>
+  </div>
+
   <button type="submit">ส่งข้อมูล</button>
 </form>
 
@@ -143,10 +152,10 @@
   <div class="modal-content">
     <h2>เงื่อนไขการใช้งาน</h2>
     <ul>
-      <li>ขอสงวนสิทธิ์เฉพาะผู้ใช้อีเมลหน่วยงาน / องค์กร</li>
-      <li>ระยะเวลาทดลองใช้งาน 3 เดือน</li>
-      <li>หากไม่ใช้งานภายใน 30 วัน ทีมงานอาจติดต่อสอบถาม</li>
-      <li>เมื่อครบ 3 เดือน หากไม่ใช้ต่อ ทีมงานจะลบข้อมูล</li>
+      li>ระยะเวลาทดลองใช้งาน 3 เดือน</li>
+      <li>เมื่อครบกำหนดระยะเวลา 3 เดือน หากท่านไม่ประสงค์ใช้งานต่อสามารถติดต่อได้ที่ โทร : 095-2399322</li>
+      <li>หากท่านประสงค์ใช้งานต่อสามารถติดต่อได้ที่ โทร : 095-2399322</li>
+      <li>ทางบริษัทขอเก็บข้อมูลเพื่อใช้สำหรับเก็บข้อมูล เเละ ทดลองใช้คุกกี้ฟรี</li>
     </ul>
     <button onclick="submitConfirmed()">รับทราบและส่งข้อมูล</button>
     <button class="cancel" onclick="closeTermsModal()">ยกเลิก</button>
@@ -156,7 +165,6 @@
 <!-- ✅ Modal สำเร็จ -->
 <div id="successModal" class="modal">
   <div class="modal-content">
-    <span onclick="closeSuccessModal()" style="position:absolute; top:10px; right:20px; font-size:24px; cursor:pointer;">&times;</span>
     <h2>✅ ลงทะเบียนสำเร็จ</h2>
     <p>ขอบคุณสำหรับการลงทะเบียน ทีมงานจะติดต่อกลับโดยเร็ว</p>
   </div>
@@ -220,7 +228,6 @@
 
   function showSuccessModal() {
     document.getElementById("successModal").style.display = "block";
-    setTimeout(closeSuccessModal, 3000);
   }
 
   function closeSuccessModal() {
