@@ -179,7 +179,7 @@
       <div class="grid two">
         <div class="group">
           <label class="required" for="fullname">ชื่อ-นามสกุล</label>
-          <input id="fullname" name="fullname" type="text" autocomplete="name" required placeholder="เช่น กชกร ศิริชัย" />
+          <input id="fullname" name="fullname" type="text" autocomplete="name" required placeholder="ภาษาไทย หรือ อังกฤษ" />
           <p class="desc">กรุณากรอกชื่อ-นามสกุลของผู้ติดต่อ</p>
           <p class="error" data-error-for="fullname"></p>
         </div>
@@ -410,7 +410,7 @@
       try{
         // ส่งข้อมูลด้วย fetch ปกติ แล้วหากติด CORS จะ fallback เป็น no-cors
 async function postToAppsScript(payload){
-  const url = 'https://script.google.com/macros/s/AKfycbyOleOSex-Q2safvujR3aHyibgWbe9FYQZ1dTvMvV4KuCwGWGRvhU_U2Mq55Y-XtctLow/exec';
+  const url = 'https://script.google.com/macros/s/AKfycbyTg4vFg2lA57CW8bKAoYPIkh_Z0bS6dF5RTjp0JSMH5TAa-fmYjZv7a8rn7pXVeAQqGA/exec';
   try{
     const res = await fetch(url, {
       method: 'POST',
@@ -459,3 +459,4 @@ openModal(successModal);
   </script>
 </body>
 </html>
+
