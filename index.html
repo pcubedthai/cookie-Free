@@ -235,6 +235,22 @@
         <p class="error" data-error-for="source"></p>
       </div>
 
+      <!-- ✅ เพิ่มเฉพาะส่วนนี้: เลือกสะดวก/ไม่สะดวกให้ติดต่อกลับ -->
+      <div class="group" style="margin-top:8px;">
+        <label class="required">สะดวกให้ทีมงานติดต่อกลับหรือไม่</label>
+        <div class="desc">เลือกหนึ่งตัวเลือก</div>
+        <div style="display:flex; gap:14px; margin-top:10px; align-items:center; flex-wrap:wrap;">
+          <label style="display:inline-flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="radio" name="consent" value="yes"> <span>สะดวก</span>
+          </label>
+          <label style="display:inline-flex; align-items:center; gap:8px; cursor:pointer;">
+            <input type="radio" name="consent" value="no"> <span>ไม่สะดวก</span>
+          </label>
+        </div>
+        <p class="error" data-error-for="consent"></p>
+      </div>
+      <!-- ✅ จบส่วนที่เพิ่ม -->
+
       <div class="actions">
         <button id="submitBtn" type="submit">ส่งข้อมูล</button>
         <div class="notice">การกดส่ง ถือว่าได้อ่านและยอมรับเงื่อนไขการทดลองใช้งาน (จะแสดงก่อนยืนยันส่ง)</div>
@@ -339,6 +355,11 @@
       if(picked.includes('Other') && !otherInput.value.trim()){
         setError('source','กรุณาระบุรายละเอียดในช่อง "อื่น ๆ"'); ok=false;
       }
+
+      // ✅ ต้องเลือกอย่างใดอย่างหนึ่ง: สะดวก/ไม่สะดวก
+      const consentValCheck = (document.querySelector('input[name="consent"]:checked')||{}).value;
+      if(!consentValCheck){ setError('consent','กรุณาเลือกว่าท่านสะดวกให้ติดต่อกลับหรือไม่'); ok=false; } else { setError('consent',''); }
+
       return ok;
     }
 
@@ -363,6 +384,9 @@
       if(sources.includes('Other') && otherInput.value.trim()){
         sources = sources.map(s => s === 'Other' ? `Other: ${otherInput.value.trim()}` : s);
       }
+      // ✅ เก็บค่าที่เลือกสะดวก/ไม่สะดวก
+      const consentVal = (document.querySelector('input[name="consent"]:checked')||{}).value || '';
+
       pendingFormData = {
         fullname: $('#fullname').value.trim(),
         company: $('#company').value.trim(),
@@ -370,7 +394,8 @@
         email: $('#email').value.trim(),
         phone: $('#phone').value.trim(),
         website: $('#website').value.trim(),
-        source: sources.join(', ')
+        source: sources.join(', '),
+        consent: consentVal
       };
       openModal(termsModal);
     });
@@ -434,6 +459,3 @@ openModal(successModal);
   </script>
 </body>
 </html>
-
-
-
