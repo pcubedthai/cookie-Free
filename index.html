@@ -385,7 +385,7 @@
       try{
         // ส่งข้อมูลด้วย fetch ปกติ แล้วหากติด CORS จะ fallback เป็น no-cors
 async function postToAppsScript(payload){
-  const url = 'https://script.google.com/macros/s/AKfycbybGDN4KLDDdyvCkBRkk3KFreDQIjvet-J5FTUJ6gaFj-GapjE8NMQBqAnHHjUTfqPivw/exec';
+  const url = 'https://script.google.com/macros/s/AKfycbyHqDkr-lZehTErXwhEB7sXfGQD1Q1qH_O87Y-PrSbVoQU_z1dsbJPdGlSYWvOaaSE_Pw/exec';
   try{
     const res = await fetch(url, {
       method: 'POST',
@@ -434,3 +434,4 @@ openModal(successModal);
   </script>
 </body>
 </html>
+
