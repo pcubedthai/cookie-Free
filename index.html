@@ -383,7 +383,7 @@
       submitBtn.disabled = true;
       submitBtn.textContent = 'กำลังส่ง...';
       try{
-        const res = await fetch('https://script.google.com/macros/s/AKfycbybGDN4KLDDdyvCkBRkk3KFreDQIjvet-J5FTUJ6gaFj-GapjE8NMQBqAnHHjUTfqPivw/exec', {
+        const res = await fetch('https://script.google.com/macros/s/AKfycbwNR21B_3xxXGTFxXfU7bFKohXoLZBiSnjUveBOIF6JP1ytFE9VHgyeh_emv6LHP_OW/exec', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(pendingFormData)
@@ -405,4 +405,5 @@
   </script>
 </body>
 </html>
+
 
