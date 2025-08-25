@@ -1,252 +1,407 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>แบบฟอร์มทดลองใช้งานระบบคุกกี้</title>
-  <meta name="viewport" content="width=1280, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
-    html,body {
-      font-family: 'Sarabun', sans-serif;
-      background-color: #f2f2f2;
-      padding: 40px;
-      max-width: 800px;
-      margin: auto;
-      color: #333;
+    :root{
+      --brand:#0ea5e9;          /* sky-500 */
+      --brand-600:#0284c7;      /* sky-600 */
+      --brand-700:#0369a1;      /* sky-700 */
+      --ink:#1f2937;            /* gray-800 */
+      --muted:#6b7280;          /* gray-500 */
+      --bg:#f8fafc;             /* slate-50 */
+      --panel:#ffffff;          /* white */
+      --ring:#bae6fd;           /* sky-200 */
+      --danger:#ef4444;         /* red-500 */
+      --success:#16a34a;        /* green-600 */
+      --shadow:0 8px 30px rgba(2, 132, 199, .08), 0 2px 8px rgba(2, 132, 199, .06);
+      --radius:14px;
     }
-    h1 {
-      text-align: center;
-      margin-bottom: 10px;
+
+    html, body {
+      font-family: 'Sarabun', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: radial-gradient(1200px 500px at 50% -200px, #e0f2fe 0%, transparent 60%), var(--bg);
+      color: var(--ink);
+      margin: 0;
     }
-    .form-intro {
-      background: #fff;
-      padding: 20px 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
-      margin-bottom: 20px;
-      font-size: 15px;
-      line-height: 1.6;
+
+    .wrap {
+      max-width: 980px;
+      margin: clamp(16px, 4vw, 40px) auto;
+      padding: 0 clamp(16px, 4vw, 24px);
     }
+
+    header {
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    header img { width: 56px; height: 56px; object-fit: contain; border-radius: 12px; }
+
+    header h1 {
+      font-size: clamp(20px, 2.6vw, 30px);
+      margin: 0;
+      font-weight: 700;
+      letter-spacing: .2px;
+    }
+
+    .intro, form {
+      background: var(--panel);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    .intro {
+      padding: clamp(16px, 3.5vw, 28px);
+      margin-bottom: 16px;
+      line-height: 1.75;
+      font-size: clamp(14px, 1.6vw, 16px);
+    }
+
     form {
-      background: #fff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.08);
+      padding: clamp(18px, 3.6vw, 30px);
     }
+
+    .grid {
+      display: grid;
+      gap: 14px 16px;
+    }
+
+    /* 2 คอลัมน์บนจอใหญ่, 1 คอลัมน์บนมือถือ */
+    @media (min-width: 880px) {
+      .grid.two { grid-template-columns: 1fr 1fr; }
+    }
+
+    .group { display:flex; flex-direction:column; }
+
     label {
-      font-weight: bold;
-      display: block;
-      margin-top: 20px;
+      font-weight: 600;
+      font-size: 15px;
     }
-    .description {
-      font-size: 14px;
-      color: #666;
-      margin-bottom: 10px;
-    }
-    input, textarea {
-      width: 100%;
-      padding: 10px;
-      margin-top: 6px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 16px;
-    }
-    input[type="checkbox"] {
-      margin-right: 8px;
-      width: auto;
-    }
-    button {
-      background-color: #007BFF;
-      color: white;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      margin-top: 25px;
-      width: 100%;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    #otherInput {
-      display: none;
-    }
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 999;
-      left: 0; top: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.5);
-    }
-    .modal-content {
-      background-color: white;
-      margin: 10% auto;
-      padding: 30px;
+
+    .desc { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+    input, textarea, button, .chips {
       border-radius: 12px;
-      width: 90%;
-      max-width: 600px;
-      text-align: center;
-      position: relative;
     }
-    .modal-content ul {
-      list-style: none;
-      padding-left: 0;
-      text-align: left;
-    }
-    .modal-content button {
-      margin-top: 20px;
+
+    input, textarea, select {
+      border: 1.5px solid #e5e7eb;
+      padding: 12px 14px;
       font-size: 16px;
+      outline: none;
+      transition: border-color .2s ease, box-shadow .2s ease;
+      background: #fff;
     }
-    .modal-content .cancel {
-      background: #ccc;
-      margin-left: 10px;
+
+    input:focus, textarea:focus, select:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 4px var(--ring);
+    }
+
+    .chips { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; }
+    .chip {
+      position: relative;
+      display:inline-flex; align-items:center; gap: 8px;
+      border:1.5px solid #e5e7eb; padding:10px 12px; cursor:pointer;
+      user-select:none; transition: all .2s ease; font-size:15px; background:#fff;
+    }
+    .chip input { position:absolute; inset:0; opacity:0; }
+    .chip:hover { border-color: var(--brand); box-shadow: 0 0 0 3px var(--ring); }
+    .chip[data-checked="true"] { border-color: var(--brand-600); background: #f0f9ff; }
+
+    .required::after { content: '*'; color: var(--danger); margin-left: 4px; }
+
+    .actions { display:flex; flex-direction:column; gap:10px; margin-top: 8px; }
+
+    button[type="submit"]{
+      background: linear-gradient(180deg, var(--brand), var(--brand-600));
+      color:#fff; border:none; padding:14px 18px; font-size:16px; font-weight:700;
+      box-shadow: var(--shadow); cursor:pointer;
+    }
+    button[type="submit"]:hover { filter: brightness(0.98); }
+    button[disabled] { opacity:.6; cursor:not-allowed; }
+
+    .notice { font-size: 12.5px; color: var(--muted); text-align:center; margin-top: 4px; }
+
+    /* Modal */
+    .modal { position: fixed; inset: 0; display:none; place-items:center; background: rgba(2,6,23,.55); backdrop-filter: blur(2px); z-index: 50; }
+    .modal.open { display:grid; }
+    .sheet {
+      width: min(680px, 92vw);
+      background: #fff; border-radius: 18px; box-shadow: var(--shadow);
+      padding: clamp(18px, 3.5vw, 28px);
+      transform: translateY(10px) scale(.98);
+      opacity: 0; animation: pop .22s ease forwards;
+    }
+    @keyframes pop { to { transform: translateY(0) scale(1); opacity: 1; } }
+    .sheet h2 { margin:0 0 8px; font-size: clamp(18px, 2.2vw, 22px); }
+    .sheet ul { margin: 8px 0 0; padding:0 0 0 18px; line-height: 1.8; }
+    .sheet .buttons { display:flex; flex-wrap:wrap; gap:10px; margin-top: 16px; }
+    .btn { padding:12px 14px; border-radius: 12px; border:1.5px solid #e5e7eb; background:#fff; cursor:pointer; font-weight:600; }
+    .btn.primary { background: var(--ink); color:#fff; border-color: transparent; }
+    .btn.primary:hover { background: #111827; }
+
+    .success { text-align:center; }
+    .success .icon { font-size: 40px; line-height: 1; color: var(--success); }
+
+    /* Helper states */
+    .error { color: var(--danger); font-size: 13px; margin-top: 6px; }
+
+    /* Reduce motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none!important; transition: none!important; }
     }
   </style>
 </head>
 <body>
-<img src="logo.png"style="display:block; margin:auto; max-width:180px; margin-bottom: 10px;">
-<h1>แบบฟอร์มทดลองใช้งานระบบคุกกี้</h1>
-<div class="form-intro">
-  <p>แบบฟอร์มนี้เป็นส่วนหนึ่งของข้อตกลงการให้บริการระบบจัดการคุกกี้ โดยมีวัตถุประสงค์เพื่อให้หน่วยงานที่สนใจสามารถทดลองใช้งานระบบได้ฟรีเป็นระยะเวลา 3 เดือน</p>
-  <p>ข้อมูลที่ท่านกรอกจะถูกใช้เพื่อการติดต่อกลับ การตั้งค่าบัญชีผู้ใช้งาน และนำเสนอสิทธิ์ทดลองใช้งาน</p>
-  <p>บริษัทจะเก็บรักษาข้อมูลตามมาตรฐานความปลอดภัย และจะนำข้อมูลไปใช้งานตามวัตถุประสงค์ที่มีการเเจ้งไว้เท่านั้น</p>
-</div>
+  <div class="wrap">
+    <header>
+      <img src="logo.png" alt="โลโก้" />
+      <h1>แบบฟอร์มทดลองใช้งานระบบคุกกี้</h1>
+    </header>
 
+    <section class="intro" aria-describedby="intro-text">
+      <p id="intro-text">
+        แบบฟอร์มนี้เป็นส่วนหนึ่งของข้อตกลงการให้บริการระบบจัดการคุกกี้ เพื่อให้หน่วยงานที่สนใจสามารถทดลองใช้งานระบบได้ฟรีเป็นระยะเวลา 3 เดือน
+        ข้อมูลที่ท่านกรอกจะใช้เพื่อการติดต่อกลับ การตั้งค่าบัญชีผู้ใช้งาน และนำเสนอสิทธิ์ทดลองใช้งาน ทั้งนี้บริษัทจะเก็บรักษาข้อมูลตามมาตรฐานความปลอดภัย
+        และจะนำข้อมูลไปใช้ตามวัตถุประสงค์ที่แจ้งไว้เท่านั้น
+      </p>
+    </section>
 
-<form id="cookieForm">
-  <label>ชื่อ-นามสกุล*</label>
-  <div class="description">กรุณากรอกชื่อ-นามสกุลผู้ยื่นคำร้องให้ครบถ้วน เพื่อให้ทีมงานสามารถติดต่อกลับได้อย่างถูกต้อง</div>
-  <input type="text" name="fullname" required>
+    <form id="cookieForm" novalidate>
+      <div class="grid two">
+        <div class="group">
+          <label class="required" for="fullname">ชื่อ-นามสกุล</label>
+          <input id="fullname" name="fullname" type="text" autocomplete="name" required placeholder="เช่น กชกร ศิริชัย" />
+          <p class="desc">กรุณากรอกชื่อ-นามสกุลของผู้ติดต่อ</p>
+          <p class="error" data-error-for="fullname"></p>
+        </div>
 
-  <label>ชื่อบริษัท/องค์กร*</label>
-  <div class="description">ระบุชื่อบริษัทหรือองค์กรของท่านที่ยื่นขอใช้สิทธิทดลองใช้งานระบบคุกกี้</div>
-  <input type="text" name="company" required>
+        <div class="group">
+          <label class="required" for="company">ชื่อบริษัท/องค์กร</label>
+          <input id="company" name="company" type="text" autocomplete="organization" required placeholder="เช่น บริษัท เอบีซี จำกัด" />
+          <p class="desc">ระบุชื่อบริษัทหรือองค์กรของท่าน</p>
+          <p class="error" data-error-for="company"></p>
+        </div>
 
-  <label>ชื่อหน่วยงาน*</label>
-  <div class="description">ระบุชื่อหน่วยงานที่ท่านสังกัด</div>
-  <input type="text" name="agency" required placeholder="เช่น ฝ่าย IT, ฝ่ายนโยบาย">
+        <div class="group">
+          <label class="required" for="agency">ชื่อหน่วยงาน</label>
+          <input id="agency" name="agency" type="text" required placeholder="เช่น ฝ่าย IT, ฝ่ายนโยบาย" />
+          <p class="desc">หน่วยงานที่สังกัด</p>
+          <p class="error" data-error-for="agency"></p>
+        </div>
 
-  <label>E-mail*</label>
-  <div class="description">โปรดใช้อีเมลที่เป็นโดเมนขององค์กร (เช่น yourname@company.com)</div>
-  <input type="email" name="email" required placeholder="yourname@company.com">
+        <div class="group">
+          <label class="required" for="email">E-mail</label>
+          <input id="email" name="email" type="email" inputmode="email" autocomplete="email" required placeholder="yourname@company.com" />
+          <p class="desc">ควรใช้อีเมลโดเมนองค์กร (เช่น yourname@company.com)</p>
+          <p class="error" data-error-for="email"></p>
+        </div>
 
-  <label>เบอร์โทรศัพท์*</label>
-  <div class="description">กรุณาระบุเบอร์โทรศัพท์ที่สามารถติดต่อได้</div>
-  <input type="tel" name="phone" required>
+        <div class="group">
+          <label class="required" for="phone">เบอร์โทรศัพท์</label>
+          <input id="phone" name="phone" type="tel" inputmode="tel" required placeholder="เช่น 0812345678" pattern="^[0-9+\- ]{8,}$" />
+          <p class="desc">กรุณาระบุเบอร์ที่ติดต่อได้</p>
+          <p class="error" data-error-for="phone"></p>
+        </div>
 
-  <label>เว็บไซต์ที่ต้องการทดลองใช้งาน*</label>
-  <div class="description">ระบุ URL เว็บไซต์ที่ต้องการให้ระบบคุกกี้ทำงาน หากไม่ทราบให้กรอก "เเจ้งภายหลัง"</div>
-  <input type="text" name="website" required placeholder="https://yourwebsite.com">
+        <div class="group">
+          <label class="required" for="website">เว็บไซต์ที่ต้องการทดลองใช้งาน</label>
+          <input id="website" name="website" type="url" inputmode="url" required placeholder="https://yourwebsite.com" />
+          <p class="desc">หากยังไม่ทราบ ให้กรอก "แจ้งภายหลัง"</p>
+          <p class="error" data-error-for="website"></p>
+        </div>
+      </div>
 
-  <label>ช่องทางที่ท่านทราบข่าวสารของเรา*</label>
-  <div class="description">เลือกได้มากกว่า 1 ข้อ</div>
-  <div>
-    <label><input type="checkbox" name="source" value="Facebook"> Facebook</label><br>
-    <label><input type="checkbox" name="source" value="E-book"> E-book</label><br>
-    <label><input type="checkbox" name="source" value="งานสัมมนา"> งานสัมมนา</label><br>
-    <label><input type="checkbox" name="source" value="Website"> Website</label><br>
-    <label><input type="checkbox" name="source" value="Other" id="otherCheckbox"> อื่น ๆ</label>
-    <input type="text" id="otherInput" placeholder="โปรดระบุ..." />
+      <div class="group" style="margin-top:8px;">
+        <label class="required">ช่องทางที่ท่านทราบข่าวสารของเรา</label>
+        <p class="desc">เลือกได้มากกว่า 1 ข้อ</p>
+        <div class="chips" id="sourceChips" role="group" aria-label="แหล่งที่มา">
+          <!-- chip template -->
+          <label class="chip"><input type="checkbox" name="source" value="Facebook"><span>Facebook</span></label>
+          <label class="chip"><input type="checkbox" name="source" value="E-book"><span>E-book</span></label>
+          <label class="chip"><input type="checkbox" name="source" value="งานสัมมนา"><span>งานสัมมนา</span></label>
+          <label class="chip"><input type="checkbox" name="source" value="Website"><span>Website</span></label>
+          <label class="chip" id="chip-other"><input type="checkbox" name="source" value="Other"><span>อื่น ๆ</span></label>
+        </div>
+        <input id="otherInput" type="text" placeholder="โปรดระบุ..." style="display:none; margin-top:10px;" />
+        <p class="error" data-error-for="source"></p>
+      </div>
+
+      <div class="actions">
+        <button id="submitBtn" type="submit">ส่งข้อมูล</button>
+        <div class="notice">การกดส่ง ถือว่าได้อ่านและยอมรับเงื่อนไขการทดลองใช้งาน (จะแสดงก่อนยืนยันส่ง)</div>
+      </div>
+    </form>
   </div>
 
-  <button type="submit">ส่งข้อมูล</button>
-</form>
-
-<!-- ✅ Modal เงื่อนไข -->
-<div id="termsModal" class="modal">
-  <div class="modal-content">
-    <h2>เงื่อนไขการใช้งาน</h2>
-<ul>
-  <li>* ระยะเวลาทดลองใช้งาน 3 เดือน</li>
-  <br>
-  <li>* เมื่อครบกำหนดระยะเวลา 3 เดือนแล้ว</li>
-  <br>
-  <li>&nbsp;&nbsp;&nbsp;&nbsp;ประสงค์ใช้งานต่อ กรุณาติดต่อกลับภายใน 15 วัน หลังครบกำหนด <br>&nbsp;&nbsp;&nbsp;&nbsp;โดยสามารถติดต่อได้ที่ โทร: <strong>095-2399322</strong></li>
-  <li>&nbsp;&nbsp;&nbsp;&nbsp;หากท่านไม่ติดต่อกลับมาภายใน 15 วัน ทางบริษัทขอสงวนสิทธิในการทดลองใช้งานคุกกี้ฟรี </li>
-</ul>
-    <button onclick="submitConfirmed()">รับทราบและส่งข้อมูล</button>
-    <button class="cancel" onclick="closeTermsModal()">ยกเลิก</button>
+  <!-- Modal: Terms -->
+  <div id="termsModal" class="modal" aria-hidden="true" aria-labelledby="termsTitle" role="dialog">
+    <div class="sheet" role="document">
+      <h2 id="termsTitle">เงื่อนไขการใช้งาน</h2>
+      <ul>
+        <li>• ระยะเวลาทดลองใช้งาน 3 เดือน</li>
+        <li>• เมื่อครบกำหนด 3 เดือน หากประสงค์ใช้งานต่อ กรุณาติดต่อกลับภายใน 15 วันหลังครบกำหนด ที่โทร <strong>095-2399322</strong></li>
+        <li>• หากไม่ติดต่อกลับภายใน 15 วัน บริษัทขอสงวนสิทธิในการทดลองใช้งานฟรี</li>
+      </ul>
+      <div class="buttons">
+        <button class="btn" data-close>ยกเลิก</button>
+        <button class="btn primary" id="confirmSubmit">รับทราบและส่งข้อมูล</button>
+      </div>
+    </div>
   </div>
-</div>
 
-<!-- ✅ Modal สำเร็จ -->
-<div id="successModal" class="modal">
-  <div class="modal-content">
-    <h2>✅ ลงทะเบียนสำเร็จ</h2>
-    <p>ขอบคุณสำหรับการลงทะเบียน ทีมงานจะติดต่อกลับโดยเร็ว</p>
-<br>
-    <p>สามารถนำหน้าจอนี้มาเเสดงเพื่อขอรับรางวัลที่บูธ PCU3ED ได้ค่ะ</p>
+  <!-- Modal: Success -->
+  <div id="successModal" class="modal" aria-hidden="true" aria-labelledby="successTitle" role="dialog">
+    <div class="sheet success" role="document">
+      <div class="icon">✅</div>
+      <h2 id="successTitle">ลงทะเบียนสำเร็จ</h2>
+      <p>ขอบคุณสำหรับการลงทะเบียน ทีมงานจะติดต่อกลับโดยเร็ว</p>
+      <p style="margin-top:8px">สามารถแสดงหน้าจอนี้เพื่อรับรางวัลที่บูธ <b>PCU3ED</b></p>
+      <div class="buttons" style="justify-content:center">
+        <button class="btn" data-close>ปิดหน้าต่าง</button>
+      </div>
+    </div>
   </div>
-</div>
 
-<script>
-  const otherCheckbox = document.getElementById("otherCheckbox");
-  const otherInput = document.getElementById("otherInput");
-  const form = document.getElementById("cookieForm");
-  let pendingFormData = null;
+  <script>
+    // ===== Helper selectors =====
+    const $ = (s,root=document)=>root.querySelector(s);
+    const $$ = (s,root=document)=>Array.from(root.querySelectorAll(s));
 
-  otherCheckbox.addEventListener("change", function () {
-    otherInput.style.display = this.checked ? "block" : "none";
-  });
+    // ===== Elements =====
+    const form = $('#cookieForm');
+    const submitBtn = $('#submitBtn');
+    const termsModal = $('#termsModal');
+    const successModal = $('#successModal');
+    const confirmBtn = $('#confirmSubmit');
+    const otherInput = $('#otherInput');
+    const chipOther = $('#chip-other input');
 
-  form.addEventListener("submit", function (e) {
-    e.preventDefault();
+    // ===== Chip UI state =====
+    function syncChips(){
+      $$('#sourceChips .chip').forEach(ch => {
+        ch.dataset.checked = ch.querySelector('input').checked ? 'true':'false';
+      });
+    }
+    $('#sourceChips').addEventListener('change', (e)=>{
+      if(e.target.matches('input[type="checkbox"][name="source"]')){
+        syncChips();
+        // toggle other input
+        if(e.target.value === 'Other'){
+          otherInput.style.display = e.target.checked ? 'block' : 'none';
+          if(!e.target.checked) otherInput.value = '';
+        }
+      }
+    });
+    syncChips();
 
-    const sourceCheckboxes = document.querySelectorAll('input[name="source"]:checked');
-    let sources = Array.from(sourceCheckboxes).map(cb => cb.value);
-    if (sources.includes("Other") && otherInput.value.trim()) {
-      sources = sources.map(s => s === "Other" ? "Other: " + otherInput.value.trim() : s);
+    // ===== Simple validation =====
+    function setError(name, message){
+      const el = document.querySelector(`[data-error-for="${name}"]`);
+      if(el){ el.textContent = message || ''; }
+    }
+    function validate(){
+      let ok = true;
+      const requiredFields = ['fullname','company','agency','email','phone'];
+      requiredFields.forEach(f=>{
+        const v = $(`#${f}`).value.trim();
+        if(!v){ setError(f,'กรุณากรอกข้อมูล'); ok=false; } else { setError(f,''); }
+      });
+      // email format
+      const email = $('#email').value.trim();
+      if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)){
+        setError('email','รูปแบบอีเมลไม่ถูกต้อง'); ok=false;
+      }
+      // phone simple check
+      const phone = $('#phone').value.trim();
+      if(phone && !/^[0-9+\- ]{8,}$/.test(phone)){
+        setError('phone','กรุณากรอกเบอร์โทรศัพท์ให้ถูกต้อง'); ok=false;
+      }
+      // website can be URL or the text "แจ้งภายหลัง"
+      const website = $('#website').value.trim();
+      if(!website){ setError('website','กรุณากรอกข้อมูล'); ok=false; }
+      else if(website !== 'แจ้งภายหลัง' && !/^https?:\/\//i.test(website)){
+        setError('website','โปรดใส่ URL ที่ขึ้นต้นด้วย http(s):// หรือพิมพ์ "แจ้งภายหลัง"'); ok=false;
+      } else { setError('website',''); }
+
+      // sources
+      const picked = $$('input[name="source"]:checked').map(i=>i.value);
+      if(picked.length === 0){ setError('source','กรุณาเลือกอย่างน้อย 1 ข้อ'); ok=false; } else { setError('source',''); }
+      // other text if selected
+      if(picked.includes('Other') && !otherInput.value.trim()){
+        setError('source','กรุณาระบุรายละเอียดในช่อง "อื่น ๆ"'); ok=false;
+      }
+      return ok;
     }
 
-pendingFormData = {
-  fullname: form.querySelector('[name="fullname"]').value,
-  company: form.querySelector('[name="company"]').value,
-  agency: form.querySelector('[name="agency"]').value, // ✅ ถูกต้องแน่นอน
-  email: form.querySelector('[name="email"]').value,
-  phone: form.querySelector('[name="phone"]').value,
-  website: form.querySelector('[name="website"]').value,
-  source: sources.join(", ")
-};
-
-
-    document.getElementById("termsModal").style.display = "block";
-  });
-
-  function closeTermsModal() {
-    document.getElementById("termsModal").style.display = "none";
-    pendingFormData = null;
-  }
-
-  function submitConfirmed() {
-    document.getElementById("termsModal").style.display = "none";
-
-    fetch("https://script.google.com/macros/s/AKfycbybGDN4KLDDdyvCkBRkk3KFreDQIjvet-J5FTUJ6gaFj-GapjE8NMQBqAnHHjUTfqPivw/exec", {
-      method: "POST",
-      body: JSON.stringify(pendingFormData)
-    })
-    .then(res => res.text())
-    .then(msg => {
-      form.reset();
-      otherInput.style.display = "none";
-      showSuccessModal();
-    })
-    .catch(() => {
-      alert("เกิดข้อผิดพลาดในการส่งข้อมูล");
+    // ===== Modal helpers =====
+    function openModal(el){ el.classList.add('open'); document.body.style.overflow='hidden'; }
+    function closeModal(el){ el.classList.remove('open'); document.body.style.overflow=''; }
+    $$('[data-close]').forEach(btn=> btn.addEventListener('click', ()=> closeModal(btn.closest('.modal'))));
+    [termsModal, successModal].forEach(m => m.addEventListener('click', (e)=>{ if(e.target === m) closeModal(m); }));
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Escape'){ [termsModal, successModal].forEach(closeModal); }
     });
 
-    pendingFormData = null;
-  }
+    // ===== Submit flow =====
+    let pendingFormData = null;
 
-  function showSuccessModal() {
-    document.getElementById("successModal").style.display = "block";
-  }
+    form.addEventListener('submit', (e)=>{
+      e.preventDefault();
+      if(!validate()) return;
 
-  function closeSuccessModal() {
-    document.getElementById("successModal").style.display = "none";
-  }
-</script>
+      const sourceChecked = $$('input[name="source"]:checked').map(cb=>cb.value);
+      let sources = [...sourceChecked];
+      if(sources.includes('Other') && otherInput.value.trim()){
+        sources = sources.map(s => s === 'Other' ? `Other: ${otherInput.value.trim()}` : s);
+      }
+      pendingFormData = {
+        fullname: $('#fullname').value.trim(),
+        company: $('#company').value.trim(),
+        agency: $('#agency').value.trim(),
+        email: $('#email').value.trim(),
+        phone: $('#phone').value.trim(),
+        website: $('#website').value.trim(),
+        source: sources.join(', ')
+      };
+      openModal(termsModal);
+    });
 
+    $('#termsModal .btn[data-close]').addEventListener('click', ()=>{ pendingFormData = null; });
+
+    confirmBtn.addEventListener('click', async ()=>{
+      if(!pendingFormData) return;
+      closeModal(termsModal);
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'กำลังส่ง...';
+      try{
+        const res = await fetch('https://script.google.com/macros/s/AKfycbybGDN4KLDDdyvCkBRkk3KFreDQIjvet-J5FTUJ6gaFj-GapjE8NMQBqAnHHjUTfqPivw/exec', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(pendingFormData)
+        });
+        // พยายามอ่านข้อความ แต่ไม่บังคับใช้
+        await res.text().catch(()=>{});
+        form.reset();
+        otherInput.style.display = 'none';
+        syncChips();
+        openModal(successModal);
+      }catch(err){
+        alert('เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้ง');
+      }finally{
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'ส่งข้อมูล';
+        pendingFormData = null;
+      }
+    });
+  </script>
 </body>
 </html>
