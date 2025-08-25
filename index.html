@@ -179,14 +179,14 @@
       <div class="grid two">
         <div class="group">
           <label class="required" for="fullname">ชื่อ-นามสกุล</label>
-          <input id="fullname" name="fullname" type="text" autocomplete="name" required placeholder="ชื่อ-นามสกุล (ภาษาไทยหรือภาษาอังกษ)" />
+          <input id="fullname" name="fullname" type="text" autocomplete="name" required placeholder="เช่น กชกร ศิริชัย" />
           <p class="desc">กรุณากรอกชื่อ-นามสกุลของผู้ติดต่อ</p>
           <p class="error" data-error-for="fullname"></p>
         </div>
 
         <div class="group">
           <label class="required" for="company">ชื่อบริษัท/องค์กร</label>
-          <input id="company" name="company" type="text" autocomplete="organization" required placeholder="เช่น บริษัท ABC จำกัด" />
+          <input id="company" name="company" type="text" autocomplete="organization" required placeholder="เช่น บริษัท เอบีซี จำกัด" />
           <p class="desc">ระบุชื่อบริษัทหรือองค์กรของท่าน</p>
           <p class="error" data-error-for="company"></p>
         </div>
@@ -383,17 +383,33 @@
       submitBtn.disabled = true;
       submitBtn.textContent = 'กำลังส่ง...';
       try{
-        const res = await fetch('https://script.google.com/macros/s/AKfycbwNR21B_3xxXGTFxXfU7bFKohXoLZBiSnjUveBOIF6JP1ytFE9VHgyeh_emv6LHP_OW/exec', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(pendingFormData)
-        });
-        // พยายามอ่านข้อความ แต่ไม่บังคับใช้
-        await res.text().catch(()=>{});
-        form.reset();
-        otherInput.style.display = 'none';
-        syncChips();
-        openModal(successModal);
+        // ส่งข้อมูลด้วย fetch ปกติ แล้วหากติด CORS จะ fallback เป็น no-cors
+async function postToAppsScript(payload){
+  const url = 'https://script.google.com/macros/s/AKfycbybGDN4KLDDdyvCkBRkk3KFreDQIjvet-J5FTUJ6gaFj-GapjE8NMQBqAnHHjUTfqPivw/exec';
+  try{
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    return true;
+  }catch(err){
+    // Fallback แบบ no-cors (จะไม่ได้อ่านผลลัพธ์ แต่ช่วยให้เบราว์เซอร์ไม่บล็อก CORS)
+    try{
+      await fetch(url, { method:'POST', mode:'no-cors', body: JSON.stringify(payload) });
+      return true;
+    }catch(err2){
+      throw err;
+    }
+  }
+}
+
+await postToAppsScript(pendingFormData);
+form.reset();
+otherInput.style.display = 'none';
+syncChips();
+openModal(successModal);
       }catch(err){
         alert('เกิดข้อผิดพลาดในการส่งข้อมูล กรุณาลองใหม่อีกครั้ง');
       }finally{
@@ -402,8 +418,19 @@
         pendingFormData = null;
       }
     });
+
+    // เติมค่าทดสอบเร็ว (ลบออกได้)
+    // window.__demoFill = () => {
+    //   $('#fullname').value='กชกร ศิริชัย';
+    //   $('#company').value='บริษัท ตัวอย่าง จำกัด';
+    //   $('#agency').value='ฝ่ายนโยบาย';
+    //   $('#email').value='kachakorn@example.com';
+    //   $('#phone').value='0891234567';
+    //   $('#website').value='https://example.com';
+    //   $$('input[name="source"][value="Facebook"]')[0].checked = true;
+    //   chipOther.checked = true; otherInput.style.display='block'; otherInput.value='จากเพื่อนแนะนำ';
+    //   syncChips();
+    // };
   </script>
 </body>
 </html>
-
-
